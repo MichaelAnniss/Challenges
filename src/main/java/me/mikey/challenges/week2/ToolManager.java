@@ -33,9 +33,9 @@ public class ToolManager {
 
         if(currentTool != null) {
             g.setColor(Color.BLACK);
-            g.drawString(currentTool.getName(), (Week2.getInstance().getWidth() / 2) - g.getFontMetrics()
+            g.drawString(currentTool.getName(), (CompatLayer.getInstance().getWidth() / 2) - g.getFontMetrics()
                             .stringWidth(currentTool.getName()),
-                    Week2.getInstance().getHeight() - 20);
+                    CompatLayer.getInstance().getHeight() - 20);
         }
     }
 

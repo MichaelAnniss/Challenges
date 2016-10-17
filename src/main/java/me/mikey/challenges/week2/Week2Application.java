@@ -4,23 +4,21 @@ import me.mikey.challenges.week2.listeners.Week2KeyListener;
 import me.mikey.challenges.week2.listeners.Week2MouseListener;
 import me.mikey.challenges.week2.util.Position;
 
-import java.applet.Applet;
+import javax.swing.*;
 import java.awt.*;
-import java.util.TimerTask;
+import java.util.*;
 
-// <applet code = "Week2" width = 640 height = 480> </applet>
-public class Week2 extends Applet {
-    private static Week2 instance;
-
+/**
+ * Created by Michael on 17/10/16.
+ */
+public class Week2Application extends JFrame {
     private Image offScreenBuffer;
 
-    @Override
-    public void start() {
-        CompatLayer.setInstance(new AppletLayer(this));
-
-        //Set singleton instance
-        instance = this;
-
+    private Week2Application() {
+        setVisible(true);
+        setSize(640, 480);
+        CompatLayer.setInstance(new ApplicationLayer(this));
+        System.out.println(getGraphics());
         CompatLayer.getInstance().setup(getGraphics());
 
         //Register listeners
@@ -59,21 +57,25 @@ public class Week2 extends Applet {
         g.drawImage(offScreenBuffer, 0, 0, this);
     }
 
-    private class AppletLayer extends CompatLayer {
-        private Week2 instance;
+    public static void main(String[] args) {
+        new Week2Application();
+    }
 
-        private AppletLayer(Week2 instance) {
-            this.instance = instance;
+    private class ApplicationLayer extends CompatLayer {
+        private Week2Application application;
+
+        private ApplicationLayer(Week2Application application) {
+            this.application = application;
         }
 
         @Override
         public int getWidth() {
-            return instance.getWidth();
+            return application.getWidth();
         }
 
         @Override
         public int getHeight() {
-            return instance.getHeight();
+            return application.getHeight();
         }
 
         @Override
@@ -82,7 +84,7 @@ public class Week2 extends Applet {
             // to the top right of the screen, the x and y needs to be relative to the top left of the applet)
             PointerInfo info = MouseInfo.getPointerInfo();
             Point point = info.getLocation();
-            Point screenPos = Week2.getInstance().getLocationOnScreen();
+            Point screenPos = application.getLocationOnScreen();
             point.translate((int) -screenPos.getX(), (int) -screenPos.getY());
             return Position.from((int) point.getX(), (int) point.getY());
         }
@@ -92,13 +94,9 @@ public class Week2 extends Applet {
             this.timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    paint(getGraphics());
+                    paint(graphics);
                 }
             }, 0, FRAME_PERIOD);
         }
-    }
-
-    public static Week2 getInstance() {
-        return instance;
     }
 }

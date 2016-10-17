@@ -22,14 +22,14 @@ public class ComponentManager {
         registerComponent(new ScrollingComponent("b", Position.from(0, 40), 2,
                 ScrollingComponent.TextDirection.LEFT_TO_RIGHT));
 
-        registerComponent(new ScrollingComponent("a", Position.from(Week2.getInstance().getWidth(), 60), 4,
+        registerComponent(new ScrollingComponent("a", Position.from(CompatLayer.getInstance().getWidth(), 60), 4,
                 ScrollingComponent.TextDirection.RIGHT_TO_LEFT));
 
         //Vertical
-        registerComponent(new ScrollingComponent("c", Position.from(Week2.getInstance().getWidth() / 2, 0), 4,
+        registerComponent(new ScrollingComponent("c", Position.from(CompatLayer.getInstance().getWidth() / 2, 0), 4,
                 ScrollingComponent.TextDirection.TOP_TO_BOTTOM));
 
-        registerComponent(new ScrollingComponent("d", Position.from((Week2.getInstance().getWidth() / 2) + 20, Week2.getInstance().getHeight()), 3,
+        registerComponent(new ScrollingComponent("d", Position.from((CompatLayer.getInstance().getWidth() / 2) + 20, CompatLayer.getInstance().getHeight()), 3,
                 ScrollingComponent.TextDirection.BOTTOM_TO_TOP));
 
         //Dynamic
@@ -48,7 +48,7 @@ public class ComponentManager {
             g.setColor(Color.BLACK);
 
             //Draw the bounding box if it is enabled
-            if(Week2.getInstance().isDrawBoundingBoxes() && component.getBoundingBox() != null) {
+            if(CompatLayer.getInstance().isDrawBoundingBoxes() && component.getBoundingBox() != null) {
 
                 if(component.isCollisionEnabled())
                     g.setColor(Color.GREEN);

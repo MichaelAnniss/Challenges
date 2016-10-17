@@ -24,14 +24,14 @@ public class FollowMouseComponent extends GUIComponent {
 
     public void setText(String text) {
         this.text = text;
-        this.width = Week2.getInstance().getGraphics().getFontMetrics().stringWidth(text);
-        this.height = Week2.getInstance().getGraphics().getFontMetrics().getHeight();
+        this.width = CompatLayer.getInstance().getGraphics().getFontMetrics().stringWidth(text);
+        this.height = CompatLayer.getInstance().getGraphics().getFontMetrics().getHeight();
     }
 
     //Update the position to move towards the pointer
     @Override
     public void tick() {
-        Position pos = Week2.getInstance().getAdaptedMousePosition();
+        Position pos = CompatLayer.getInstance().getAdaptedMousePosition();
         tickForMouse(pos);
     }
 

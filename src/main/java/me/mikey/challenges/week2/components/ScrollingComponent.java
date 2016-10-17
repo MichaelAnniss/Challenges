@@ -28,8 +28,8 @@ public class ScrollingComponent extends GUIComponent {
 
     public void setText(String text) {
         this.text = text;
-        this.width = Week2.getInstance().getGraphics().getFontMetrics().stringWidth(this.text);
-        this.height = Week2.getInstance().getGraphics().getFontMetrics().getHeight();
+        this.width = CompatLayer.getInstance().getGraphics().getFontMetrics().stringWidth(this.text);
+        this.height = CompatLayer.getInstance().getGraphics().getFontMetrics().getHeight();
     }
 
     //update the coordinates
@@ -52,7 +52,7 @@ public class ScrollingComponent extends GUIComponent {
                 break;
         }
 
-        pos.bounds(Week2.getInstance().getWidth(), Week2.getInstance().getHeight(), this.initPos);
+        pos.bounds(CompatLayer.getInstance().getWidth(), CompatLayer.getInstance().getHeight(), this.initPos);
         updateBoundingBox();
 
         if(this.boundingBox != null && this.isCollisionEnabled()) {
