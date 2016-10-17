@@ -29,7 +29,7 @@ public class ToolManager {
 
     //Draw the name of the current tool to the screen
     public void paint(Graphics g) {
-        PlacementTool currentTool = this.allTools.get(this.currentToolIndex);
+        PlacementTool currentTool = getCurrentTool();
 
         if(currentTool != null) {
             g.setColor(Color.BLACK);
@@ -41,7 +41,7 @@ public class ToolManager {
 
     //Call the current tool at the given position
     public void activateTool(Position pos) {
-        PlacementTool currentTool = this.allTools.get(this.currentToolIndex);
+        PlacementTool currentTool = getCurrentTool();
 
         if(currentTool != null) {
             currentTool.activate(pos);
@@ -51,6 +51,14 @@ public class ToolManager {
     //Register a new tool in the ToolManager
     public void registerTool(PlacementTool tool) {
         this.allTools.add(tool);
+    }
+
+    public PlacementTool getCurrentTool() {
+        return this.allTools.get(this.currentToolIndex);
+    }
+
+    public List<PlacementTool> getAllTools() {
+        return allTools;
     }
 
     public static ToolManager getInstance() {
