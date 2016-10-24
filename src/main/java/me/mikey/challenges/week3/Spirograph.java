@@ -52,4 +52,24 @@ public class Spirograph {
 	public double getIncrement() {
 		return increment;
 	}
+
+	public int getFixedCircleRadius() {
+		return fixedCircleRadius;
+	}
+
+	public int getMovingCircleRadius() {
+		return movingCircleRadius;
+	}
+
+	public int getCentreOffset() {
+		return centreOffset;
+	}
+
+	public void setLastX(int lastX) {
+		this.lastX = lastX;
+	}
+
+	public void setLastY(int lastY) {
+		this.lastY = lastY;
+	}
 }

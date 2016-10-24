@@ -24,7 +24,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>me.mikey.challenges.week2.Week2Application</mainClass>
+                            <mainClass>me.mikey.challenges.week3.Week3</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -37,6 +37,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
         </dependency>
     </dependencies>
 </project>

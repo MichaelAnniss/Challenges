@@ -17,7 +17,7 @@ public class Week3 {
 	private Week3() {}
 
 	private void start() {
-		this.currentSpirograph = new Spirograph(125, 5, 300, 50, 0.5);
+		this.currentSpirograph = new Spirograph(125, 5, 135, 10, 0.01);
 		this.timer = new Timer();
 		this.mainWindow = new Week3MainWindow();
 		this.sliderWindow = new Week3SliderWindow();

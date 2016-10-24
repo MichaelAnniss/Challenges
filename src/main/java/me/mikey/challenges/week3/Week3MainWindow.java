@@ -52,6 +52,9 @@ public class Week3MainWindow extends JFrame {
 			g.drawLine(lastX, lastY, nextX, nextY);
 		}
 
+		spirograph.setLastX(-1);
+		spirograph.setLastY(-1);
+
 		g.dispose();
 		gr.drawImage(offScreenBuffer, 0, 0, this);
 		gr.dispose();

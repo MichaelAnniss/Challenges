@@ -8,15 +8,15 @@ import javax.swing.*;
 public class Week3SliderWindow extends JFrame {
 	private JLabel fixedRadiusLabel = new JLabel("Fixed Radius (125)");
 	private JLabel movingRadiusLabel = new JLabel("Moving Radius (5)");
-	private JLabel centreOffsetLabel = new JLabel("Centre Offset (300)");
-	private JLabel maxItersLabel = new JLabel("Max Iterations (50)");
-	private JLabel incrementLabel = new JLabel("Increment (0.5)");
+	private JLabel centreOffsetLabel = new JLabel("Centre Offset (135)");
+	private JLabel maxItersLabel = new JLabel("Max Iterations (10)");
+	private JLabel incrementLabel = new JLabel("Increment (0.01)");
 
 	private JSlider fixedRadiusSlider = new JSlider(1, 400, 125);
 	private JSlider movingRadiusSlider = new JSlider(1, 400, 5);
-	private JSlider centreOffsetSlider = new JSlider(1, 400, 300);
-	private JSlider maxItersSlider = new JSlider(10, 300, 50);
-	private JSlider incrementSlider = new JSlider(10, 1000, 500);
+	private JSlider centreOffsetSlider = new JSlider(1, 400, 135);
+	private JSlider maxItersSlider = new JSlider(10, 300, 10);
+	private JSlider incrementSlider = new JSlider(10, 1000, 10);
 
 	public Week3SliderWindow() {
 		setSize(100, 600);
@@ -50,13 +50,13 @@ public class Week3SliderWindow extends JFrame {
 	}
 
 	public void redraw() {
-		Spirograph spirograph = new Spirograph(fixedRadiusSlider.getValue(), movingRadiusSlider.getValue(), centreOffsetSlider.getValue(), maxItersSlider.getValue(), (double) incrementSlider.getValue() / 1000);
+		Spirograph spirograph = new Spirograph(fixedRadiusSlider.getValue(), movingRadiusSlider.getValue(), centreOffsetSlider.getValue(), maxItersSlider.getValue(), (double) (incrementSlider.getValue()) / 1000.0);
 		Week3.getInstance().setCurrentSpirograph(spirograph);
 
 		fixedRadiusLabel.setText("Fixed Radius (" + fixedRadiusSlider.getValue() + ")");
 		movingRadiusLabel.setText("Moving Radius (" + movingRadiusSlider.getValue() + ")");
 		centreOffsetLabel.setText("Centre Offset (" + centreOffsetSlider.getValue() + ")");
 		maxItersLabel.setText("Max Iterations (" + maxItersSlider.getValue() + ")");
-		incrementLabel.setText("Increment (" + ((double) incrementSlider.getValue() / 1000) + ")");
+		incrementLabel.setText("Increment (" + ((double) incrementSlider.getValue() / 1000.0) + ")");
 	}
 }
