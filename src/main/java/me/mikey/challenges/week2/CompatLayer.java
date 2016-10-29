@@ -1,14 +1,11 @@
 package me.mikey.challenges.week2;
 
-import me.mikey.challenges.week2.listeners.Week2KeyListener;
-import me.mikey.challenges.week2.listeners.Week2MouseListener;
 import me.mikey.challenges.week2.tools.FollowMouseTool;
 import me.mikey.challenges.week2.tools.ScrollingTextTool;
 import me.mikey.challenges.week2.util.Position;
 
 import java.awt.*;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Michael on 17/10/16.

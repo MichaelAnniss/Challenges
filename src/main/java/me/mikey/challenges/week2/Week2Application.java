@@ -6,7 +6,7 @@ import me.mikey.challenges.week2.util.Position;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.TimerTask;
 
 /**
  * Created by Michael on 17/10/16.

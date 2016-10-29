@@ -24,7 +24,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>me.mikey.challenges.week3.Week3</mainClass>
+                            <mainClass>me.mikey.challenges.week4.Week4</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

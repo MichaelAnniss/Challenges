@@ -1,6 +1,8 @@
 package me.mikey.challenges.week2.components;
 
-import me.mikey.challenges.week2.*;
+import me.mikey.challenges.week2.CompatLayer;
+import me.mikey.challenges.week2.ComponentManager;
+import me.mikey.challenges.week2.GUIComponent;
 import me.mikey.challenges.week2.util.AABB;
 import me.mikey.challenges.week2.util.Position;
 

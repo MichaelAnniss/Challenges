@@ -26,13 +26,12 @@ public class Week3Test {
 	public void init() {
 		MockitoAnnotations.initMocks(this);
 	}
-
-	/*
+/*
 	@Test
 	public void testInitialisation() {
 		Spirograph spirograph = new Spirograph(10, 10, 10, 10, 1);
 		Week3 week3 = mock(Week3.class);
-		Week3.setInstance(week3);
+		//Week3.setInstance(week3);
 
 		//Set up calls
 		when(mainWindow.getHeight()).thenReturn(600);
@@ -48,8 +47,8 @@ public class Week3Test {
 		//Verify the Graphics instance was disposed of properly
 		verify(graphics, times(1)).dispose();
 		mainWindow.paint(graphics);
-	}*/
-
+	}
+*/
 	@Test
 	public void testSpirograph() {
 		Spirograph spirograph = new Spirograph(10, 11, 12, 100, 0.1);
