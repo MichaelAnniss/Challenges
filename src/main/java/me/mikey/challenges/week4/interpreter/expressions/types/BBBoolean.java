@@ -38,7 +38,7 @@ public class BBBoolean extends BBExpression {
       String s = "(BBBoolean ";
 
       for(Token token : tokens) {
-         s += token;
+         s += token + " ";
       }
 
       s += ")";

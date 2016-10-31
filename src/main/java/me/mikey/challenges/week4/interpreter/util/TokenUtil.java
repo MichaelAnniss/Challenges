@@ -18,9 +18,10 @@ public class TokenUtil {
             return false;
 
         for(int i = 0; i < tokens.size(); i++) {
-            if (!inputTypes.get(i).matches(tokens.get(i))) {
+            ExpectedInput.InputResponse response = inputTypes.get(i).matches(tokens.get(i));
+
+            if(response == ExpectedInput.InputResponse.NO_MATCH)
                 return false;
-            }
         }
 
         return true;
@@ -33,7 +34,7 @@ public class TokenUtil {
         for(ExpectedInput expectedInput : inputTypes) {
 
             if(i < tokens.size()) {
-                if (!expectedInput.matches(tokens.get(i))) {
+                if (expectedInput.matches(tokens.get(i)) == ExpectedInput.InputResponse.NO_MATCH) {
                     ret += ("" + expectedInput + " but received " + tokens.get(i)) + "\n";
                 }
             } else {

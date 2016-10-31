@@ -16,8 +16,8 @@ public class ExpectedInputOr extends ExpectedInput {
     }
 
     @Override
-    public boolean matches(Token token) {
-        return token.getType() == this.expected || token.getType() == this.expected2;
+    public InputResponse matches(Token token) {
+        return (token.getType() == this.expected || token.getType() == this.expected2) ? InputResponse.MATCHES : InputResponse.NO_MATCH;
     }
 
     @Override

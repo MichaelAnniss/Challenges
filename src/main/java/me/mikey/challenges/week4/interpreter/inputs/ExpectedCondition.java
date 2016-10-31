@@ -8,7 +8,7 @@ import me.mikey.challenges.week4.interpreter.TokenType;
  */
 public class ExpectedCondition extends ExpectedInput {
     @Override
-    public boolean matches(Token token) {
-        return token.getType() == TokenType.NOT;
+    public InputResponse matches(Token token) {
+        return token.getType() == TokenType.NOT ? InputResponse.MATCHES : InputResponse.NO_MATCH;
     }
 }

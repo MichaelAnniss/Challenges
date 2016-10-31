@@ -16,12 +16,18 @@ public class ExpectedInput {
         this.expected = expected;
     }
 
-    public boolean matches(Token token) {
-        return token.getType() == this.expected;
+    public InputResponse matches(Token token) {
+        return token.getType() == this.expected ? InputResponse.MATCHES : InputResponse.NO_MATCH;
     }
 
     @Override
     public String toString() {
         return String.format("(Expected %s", this.expected);
+    }
+
+    public enum InputResponse {
+        MATCHES,
+        NO_MATCH,
+        IGNORE
     }
 }
