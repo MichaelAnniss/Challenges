@@ -1,11 +1,8 @@
 package me.mikey.challenges.week4.interpreter;
 
-import me.mikey.challenges.week4.interpreter.exceptions.BBException;
-import me.mikey.challenges.week4.interpreter.exceptions.InvalidCommandException;
-import me.mikey.challenges.week4.interpreter.exceptions.InvalidExpressionException;
-import me.mikey.challenges.week4.interpreter.exceptions.UnexpectedEOFException;
+import me.mikey.challenges.week4.interpreter.exceptions.*;
 import me.mikey.challenges.week4.interpreter.expressions.BBArgList;
-import me.mikey.challenges.week4.interpreter.expressions.BBEndBlock;
+import me.mikey.challenges.week4.interpreter.expressions.types.BBEndBlock;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBoolean;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBControl;
@@ -83,6 +80,10 @@ public class BBParser {
                         lastStack.addExpression(new BBEndBlock());
                         blockStack.peek().addExpression(lastStack);
                     }
+                }
+
+                else {
+                    throw new InvalidExpressionTypeException("Unknown expression type " + curTokenType.getExpressionType() + " for token " + curToken + " at line " + curToken.getLineNumber());
                 }
             } else {
                 throw new InvalidExpressionException("Invalid expression at line " + curToken.getLineNumber(), inputs, curToken);

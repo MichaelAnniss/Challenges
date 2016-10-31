@@ -1,6 +1,5 @@
 package me.mikey.challenges.week4.interpreter.expressions.types;
 
-import me.mikey.challenges.week4.interpreter.expressions.BBEndBlock;
 import me.mikey.challenges.week4.interpreter.expressions.BBExpression;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 

@@ -16,6 +16,7 @@ public class DecrCommand extends BBCommand {
     @Override
     public void execute(BBVirtualMachine vm) {
         Token variable = argList.getArgList().get(0);
-        vm.getVariable(variable.getData()).setValue(vm.getVariableAsInt(variable.getData()) - 1);
+        vm.getVariable(variable.getData())
+                .setValue(vm.getVariableValue(variable.getData(), Integer.class) - 1);
     }
 }

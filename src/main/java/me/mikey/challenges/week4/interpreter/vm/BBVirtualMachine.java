@@ -30,11 +30,11 @@ public class BBVirtualMachine {
         return variables.get(name);
     }
 
-    public int getVariableAsInt(String name) {
-        return Integer.parseInt(variables.get(name).getValue().toString());
+    public <T> T getVariableValue(String name, Class<T> clz) {
+        return clz.cast(variables.get(name).getValue());
     }
 
-    public void setVariable(String name, Object value) {
-        this.variables.put(name, new BBVariable(name, value));
+    public void setVariable(String name, Integer value) {
+        this.variables.put(name, new BBVariable<>(name, value));
     }
 }
