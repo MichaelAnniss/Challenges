@@ -1,5 +1,6 @@
 package me.mikey.challenges.week4.interpreter.expressions.types;
 
+import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
 import me.mikey.challenges.week4.interpreter.expressions.BBExpression;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 
@@ -31,6 +32,10 @@ public class BBBlock extends BBExpression {
                 control = (BBControl) expression;
             } else if( !(expression instanceof BBEndBlock)) {
                 expression.execute(vm);
+
+                if(expression instanceof BBCommand) {
+                    InterpreterEventManager.getInstance().instructionExecuted((BBCommand) expression, vm);
+                }
             } else if(control != null && control.shouldExecuteAgain(vm)) {
                 execute(vm);
             }

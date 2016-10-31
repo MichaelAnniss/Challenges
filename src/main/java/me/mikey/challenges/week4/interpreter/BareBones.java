@@ -64,7 +64,7 @@ public class BareBones {
         nanoTimeEnd = System.nanoTime();
 
         if(!silent) {
-            System.out.println("VM took " + TimeUnit.MILLISECONDS.convert(nanoTimeEnd - nanoTime, TimeUnit.NANOSECONDS) + "ms");
+            System.out.println("Virtual Machine took " + TimeUnit.MILLISECONDS.convert(nanoTimeEnd - nanoTime, TimeUnit.NANOSECONDS) + "ms");
         }
     }
 }

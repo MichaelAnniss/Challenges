@@ -20,7 +20,7 @@ public class BBArgList {
 
     @Override
     public String toString() {
-        String toStr = "{";
+        String toStr = "BBArgList {";
 
         for(Token token : argList)
             toStr += token + " , ";

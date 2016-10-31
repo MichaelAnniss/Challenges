@@ -1,5 +1,6 @@
 package me.mikey.challenges.week4.interpreter.vm;
 
+import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
 
 import java.util.HashMap;
@@ -35,6 +36,15 @@ public class BBVirtualMachine {
     }
 
     public void setVariable(String name, Integer value) {
-        this.variables.put(name, new BBVariable<>(name, value));
+        Object oldValue = null;
+
+        if(this.variables.containsKey(name)) {
+            oldValue = this.variables.get(name).getValue();
+        }
+
+        BBVariable variable = new BBVariable<>(name, value);
+        InterpreterEventManager.getInstance().variableUpdate(variable, oldValue, value, this);
+
+        this.variables.put(name, variable);
     }
 }

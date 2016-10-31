@@ -12,6 +12,8 @@ import java.util.Scanner;
  */
 public class Week4 {
     public static void main(String[] args) {
+        initListeners();
+
         //warm up vm for more realistic benchmarks
         runResource("multiply.bb", true);
         runResource("multiply.bb", true);
@@ -21,6 +23,10 @@ public class Week4 {
         } else {
             run(args[0], false);
         }
+    }
+
+    public static void initListeners() {
+
     }
 
     public static void run(String fileName, boolean silent) {
