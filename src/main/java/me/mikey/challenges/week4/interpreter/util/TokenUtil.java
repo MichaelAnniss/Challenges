@@ -37,6 +37,10 @@ public class TokenUtil {
                 if (expectedInput.matches(tokens.get(i)) == ExpectedInput.InputResponse.NO_MATCH) {
                     ret += ("" + expectedInput + " but received " + tokens.get(i)) + "\n";
                 }
+
+                if(expectedInput.matches(tokens.get(i)) == ExpectedInput.InputResponse.IGNORE) {
+                    ret += ("" + expectedInput + " - optional input missing but not an error...\n");
+                }
             } else {
                 ret += ("" + expectedInput + " but received nothing!") + "\n";
             }
