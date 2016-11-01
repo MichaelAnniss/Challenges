@@ -1,6 +1,5 @@
 package me.mikey.challenges.week4.interpreter.vm;
 
-import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
 import me.mikey.challenges.week4.interpreter.util.NumberUtil;
 
 /**
@@ -17,11 +16,6 @@ public class BBVariable<T> {
 
     public T getValue() {
         return value;
-    }
-
-    public void setValue(T value, BBVirtualMachine vm) {
-        InterpreterEventManager.getInstance().variableUpdate(this, this.value, value, vm);
-        this.value = value;
     }
 
     @Override

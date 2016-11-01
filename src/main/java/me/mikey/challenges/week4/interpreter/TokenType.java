@@ -208,6 +208,26 @@ public enum TokenType {
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCKEND;
         }
+    },
+
+    /*
+     * Additional Task Tokens
+     */
+    COMMENT {
+        @Override
+        public boolean matches(String input) {
+            return input.startsWith("//");
+        }
+
+        @Override
+        public List<ExpectedInput> expectedInputs() {
+            return Arrays.asList();
+        }
+
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
     };
 
     public abstract boolean matches(String input);

@@ -19,7 +19,7 @@ public class BBLexer {
 
         int lineNumber = 1;
 
-        for(String line : lines) {
+        lineLoop: for(String line : lines) {
             StringTokenizer lineTokenizer = new StringTokenizer(line, "( |;)", true);
 
             while(lineTokenizer.hasMoreTokens()) {
@@ -28,6 +28,11 @@ public class BBLexer {
 
                 //Ignore whitespace
                 if(token.isEmpty()) continue;
+
+                //Handle comments first, just skip the rest of the line
+                if(TokenType.COMMENT.matches(token)) {
+                    continue lineLoop;
+                }
 
                 for(TokenType type : TokenType.values()) {
                     if(type.matches(token)) {
