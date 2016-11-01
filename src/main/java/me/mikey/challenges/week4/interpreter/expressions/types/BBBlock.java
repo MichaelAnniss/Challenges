@@ -26,7 +26,6 @@ public class BBBlock extends BBExpression {
     @Override
     public void execute(BBVirtualMachine vm) {
         BBControl control = null;
-
         for(BBExpression expression : expressions) {
             if(expression instanceof BBControl) {
                 control = (BBControl) expression;

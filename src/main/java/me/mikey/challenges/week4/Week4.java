@@ -26,7 +26,6 @@ public class Week4 {
     }
 
     public static void initListeners() {
-
     }
 
     public static void run(String fileName, boolean silent) {

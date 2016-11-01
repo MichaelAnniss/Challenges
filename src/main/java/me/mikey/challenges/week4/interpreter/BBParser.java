@@ -91,7 +91,6 @@ public class BBParser {
         }
 
         //expressions.forEach(System.out::println);
-
         if(blockStack.size() > 1) {
             throw new UnexpectedEOFException("Unexpected end of file! (Missing end;?)");
         }
