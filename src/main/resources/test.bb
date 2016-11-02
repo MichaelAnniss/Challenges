@@ -1,12 +1,8 @@
 clear X;
-incr X;
-incr X;
-incr X;
+X = 5;
 
 clear Y;
-incr Y;
-incr Y;
-incr Y;
+Y = 3;
 
 while X == Y do;
     decr Y;

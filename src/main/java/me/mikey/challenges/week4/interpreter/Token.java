@@ -7,11 +7,13 @@ public class Token {
     private TokenType type;
     private String data;
     private int lineNumber;
+    private boolean matched;
 
     public Token(TokenType type, String data, int lineNumber) {
         this.type = type;
         this.data = data;
         this.lineNumber = lineNumber;
+        this.matched = false;
     }
 
     public TokenType getType() {
@@ -24,6 +26,14 @@ public class Token {
 
     public int getLineNumber() {
         return lineNumber;
+    }
+
+    public void setMatched(boolean matched) {
+        this.matched = matched;
+    }
+
+    public boolean isMatched() {
+        return matched;
     }
 
     @Override

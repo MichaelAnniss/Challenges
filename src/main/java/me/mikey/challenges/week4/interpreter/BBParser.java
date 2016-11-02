@@ -8,8 +8,11 @@ import me.mikey.challenges.week4.interpreter.expressions.types.BBBoolean;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBControl;
 import me.mikey.challenges.week4.interpreter.expressions.types.commands.ClearCommand;
 import me.mikey.challenges.week4.interpreter.expressions.types.commands.DecrCommand;
+import me.mikey.challenges.week4.interpreter.expressions.types.commands.EqualsCommand;
 import me.mikey.challenges.week4.interpreter.expressions.types.commands.IncrCommand;
 import me.mikey.challenges.week4.interpreter.expressions.types.controls.BBWhile;
+import me.mikey.challenges.week4.interpreter.inputs.ExpectedInput;
+import me.mikey.challenges.week4.interpreter.inputs.ExpectedOptionalInput;
 import me.mikey.challenges.week4.interpreter.util.TokenUtil;
 
 import java.util.ArrayList;
@@ -33,7 +36,32 @@ public class BBParser {
             if(curTokenType == TokenType.SEMICOLON)
                 continue;
 
+            List<Token> preInputs = new ArrayList<>();
             List<Token> inputs = new ArrayList<>();
+
+            //Scroll back to start of previous tokens as they need to be added in order
+
+            if(curTokenType.preExpectedInputs().size() != 0)
+                tokenIt.previous();
+
+            for(ExpectedInput input : curTokenType.preExpectedInputs()) {
+                if(!(input instanceof ExpectedOptionalInput)) {
+                    tokenIt.previous();
+                    System.out.println("Scrolling back one");
+                }
+            }
+
+            //needs to ignore optional inputs because they might not be necessary
+            for(ExpectedInput input : curTokenType.preExpectedInputs()) {
+                if(!(input instanceof ExpectedOptionalInput)) {
+                    preInputs.add(tokenIt.next());
+                    System.out.println("Adding preInput " + tokens.get(tokenIt.nextIndex() - 1));
+                    System.out.println("scrolling forward one");
+                }
+            }
+
+            if(curTokenType.preExpectedInputs().size() != 0)
+                tokenIt.next();
 
             for (int i = 0; i < curTokenType.expectedInputs().size(); i++) {
                 if (tokenIt.nextIndex() != tokens.size()) {
@@ -41,23 +69,42 @@ public class BBParser {
                 }
             }
 
-            if(TokenUtil.matches(inputs, curTokenType.expectedInputs())) {
+            if(curToken.getType() == TokenType.EQUALS) {
+                System.out.println(" === ");
+                System.out.println(curToken.getType());
+                System.out.println(preInputs);
+                System.out.println(curTokenType.preExpectedInputs());
+                System.out.println(inputs);
+                System.out.println(curTokenType.expectedInputs());
+                System.out.println(TokenUtil.matches(preInputs, curTokenType.preExpectedInputs()));
+                System.out.println(" === ");
+            }
+
+            if(TokenUtil.matches(inputs, curTokenType.expectedInputs()) && TokenUtil.matches(preInputs, curTokenType.preExpectedInputs())) {
+                curToken.setMatched(true);
+                inputs.forEach(i -> i.setMatched(true));
+                preInputs.forEach(i -> i.setMatched(true));
+
                 // Now to build the Expression
                 if(curTokenType.getExpressionType() == TokenType.ExpressionType.COMMAND) {
                     BBBlock curBlock = blockStack.peek();
 
                     if(curTokenType == TokenType.INCR) {
-                        curBlock.addExpression(new IncrCommand(curToken, new BBArgList(inputs)));
+                        curBlock.addExpression(new IncrCommand(curToken, new BBArgList(preInputs, inputs)));
                     }
 
                     else if(curTokenType == TokenType.DECR) {
-                        curBlock.addExpression(new DecrCommand(curToken, new BBArgList(inputs)));
+                        curBlock.addExpression(new DecrCommand(curToken, new BBArgList(preInputs, inputs)));
                     }
 
                     else if(curTokenType == TokenType.CLEAR) {
-                        curBlock.addExpression(new ClearCommand(curToken, new BBArgList(inputs)));
+                        curBlock.addExpression(new ClearCommand(curToken, new BBArgList(preInputs, inputs)));
                     }
 
+                    else if(curTokenType == TokenType.EQUALS) {
+                        System.out.println("Adding equals expression");
+                        curBlock.addExpression(new EqualsCommand(curToken, new BBArgList(preInputs, inputs)));
+                    }
                     else {
                         throw new InvalidCommandException("Unknown command type " + curTokenType + " at line " + curToken.getLineNumber());
                     }
@@ -81,18 +128,23 @@ public class BBParser {
                         blockStack.peek().addExpression(lastStack);
                     }
                 }
-
-                else {
+                /*else {
                     throw new InvalidExpressionTypeException("Unknown expression type " + curTokenType.getExpressionType() + " for token " + curToken + " at line " + curToken.getLineNumber());
-                }
-            } else {
+                }*/
+            } /*else {
                 throw new InvalidExpressionException("Invalid expression at line " + curToken.getLineNumber(), inputs, curToken);
-            }
+            }*/
         }
 
         //expressions.forEach(System.out::println);
         if(blockStack.size() > 1) {
             throw new UnexpectedEOFException("Unexpected end of file! (Missing end;?)");
+        }
+
+        for(Token token : tokens) {
+            if(!token.isMatched()) {
+                throw new UnexpectedTokenException("Unmatched token found! " + token);
+            }
         }
 
         return blockStack.pop();

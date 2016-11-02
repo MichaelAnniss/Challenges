@@ -53,7 +53,6 @@ public class BBLexer {
         }
 
         tokens.add(new Token(TokenType.ENDMAIN, "main", lineNumber));
-        tokens.add(new Token(TokenType.SEMICOLON, ";", lineNumber));
         return tokens;
     }
 }

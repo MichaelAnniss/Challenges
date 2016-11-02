@@ -8,10 +8,16 @@ import java.util.List;
  * Created by Michael on 27/10/16.
  */
 public class BBArgList {
+    private List<Token> preArgList;
     private List<Token> argList;
 
-    public BBArgList(List<Token> argList) {
+    public BBArgList(List<Token> preArgList, List<Token> argList) {
+        this.preArgList = preArgList;
         this.argList = argList;
+    }
+
+    public List<Token> getPreArgList() {
+        return preArgList;
     }
 
     public List<Token> getArgList() {

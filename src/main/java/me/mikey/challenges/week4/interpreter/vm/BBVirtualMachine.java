@@ -35,7 +35,7 @@ public class BBVirtualMachine {
         return clz.cast(variables.get(name).getValue());
     }
 
-    public void setVariable(String name, Integer value) {
+    public void setVariable(String name, Object value) {
         Object oldValue = null;
 
         if(this.variables.containsKey(name)) {

@@ -209,27 +209,27 @@ public enum TokenType {
         }
     },
 
-    /*EQUALS {
+    EQUALS {
         @Override
         public boolean matches(String input) {
-            return false;
+            return input.equalsIgnoreCase("=");
         }
 
         @Override
         public List<ExpectedInput> preExpectedInputs() {
-            return Arrays.asList(new ExpectedInput(TokenType.VARIABLE));
+            return Arrays.asList(new ExpectedInput(VARIABLE));
         }
 
         @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInputOr(TokenType.VARIABLE, TokenType.NUMBER));
+            return Arrays.asList(new ExpectedInputOr(VARIABLE, NUMBER), new ExpectedInput(SEMICOLON));
         }
 
         @Override
         public ExpressionType getExpressionType() {
-            return ExpressionType.NONE;
+            return ExpressionType.COMMAND;
         }
-    }*/
+    }
     ;
 
     public abstract boolean matches(String input);
