@@ -2,5 +2,16 @@ clear X;
 incr X;
 incr X;
 incr X;
-while X not 0 do;
+
+clear Y;
+incr Y;
+incr Y;
+incr Y;
+
+while X == Y do;
+    decr Y;
+end;
+
+while X != 0 do;
     decr X; //test
+end;

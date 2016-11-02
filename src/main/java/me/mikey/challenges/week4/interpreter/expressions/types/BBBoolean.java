@@ -23,11 +23,15 @@ public class BBBoolean extends BBExpression {
       Token operator = this.tokens.get(1);
       Token right = this.tokens.get(2);
 
-      BBVariable leftNumber = toVariable(left, context);
-      BBVariable rightNumber = toVariable(right, context);
+      BBVariable leftVar = toVariable(left, context);
+      BBVariable rightVar = toVariable(right, context);
 
-      if(operator.getType() == TokenType.NOT) {
-         return !leftNumber.getValue().equals(rightNumber.getValue());
+      if(operator.getType() == TokenType.OP_NOT_EQUAL) {
+         return !leftVar.getValue().equals(rightVar.getValue());
+      }
+
+      if(operator.getType() == TokenType.OP_EQUALS) {
+         return leftVar.getValue().equals(rightVar.getValue());
       }
 
       return false;

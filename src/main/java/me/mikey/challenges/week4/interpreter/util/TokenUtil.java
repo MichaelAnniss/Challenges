@@ -51,10 +51,6 @@ public class TokenUtil {
         return ret;
     }
 
-    public static boolean isOperator(TokenType tokenType) {
-        return tokenType == TokenType.NOT; //TODO expand
-    }
-
     public static boolean isValidVariable(String variableName) {
         return variableName.length() >= 1 && VARIABLE_PATTERN.matcher(variableName).matches();
     }

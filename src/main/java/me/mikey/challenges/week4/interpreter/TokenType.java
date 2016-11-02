@@ -88,24 +88,16 @@ public enum TokenType {
         }
 
         @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
-        }
-
-        @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    NOT {
+
+    //Operators
+    OP_NOT_EQUAL {
         @Override
         public boolean matches(String input) {
-            return input.equalsIgnoreCase("not");
-        }
-
-        @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
+            return input.equalsIgnoreCase("!=");
         }
 
         @Override
@@ -113,6 +105,18 @@ public enum TokenType {
             return ExpressionType.NONE;
         }
     },
+    OP_EQUALS {
+        @Override
+        public boolean matches(String input) {
+            return input.equalsIgnoreCase("==");
+        }
+
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+
     DO {
         @Override
         public boolean matches(String input) {
@@ -152,11 +156,6 @@ public enum TokenType {
         }
 
         @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
-        }
-
-        @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
@@ -165,11 +164,6 @@ public enum TokenType {
         @Override
         public boolean matches(String input) {
             return false;
-        }
-
-        @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
         }
 
         @Override
@@ -184,11 +178,6 @@ public enum TokenType {
         }
 
         @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
-        }
-
-        @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCK;
         }
@@ -197,11 +186,6 @@ public enum TokenType {
         @Override
         public boolean matches(String input) {
             return false;
-        }
-
-        @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
         }
 
         @Override
@@ -220,19 +204,43 @@ public enum TokenType {
         }
 
         @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+
+    /*EQUALS {
+        @Override
+        public boolean matches(String input) {
+            return false;
+        }
+
+        @Override
+        public List<ExpectedInput> preExpectedInputs() {
+            return Arrays.asList(new ExpectedInput(TokenType.VARIABLE));
+        }
+
+        @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList();
+            return Arrays.asList(new ExpectedInputOr(TokenType.VARIABLE, TokenType.NUMBER));
         }
 
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
-    };
+    }*/
+    ;
 
     public abstract boolean matches(String input);
 
-    public abstract List<ExpectedInput> expectedInputs();
+    public List<ExpectedInput> preExpectedInputs() {
+        return Arrays.asList();
+    }
+
+    public List<ExpectedInput> expectedInputs() {
+        return Arrays.asList();
+    }
 
     public abstract ExpressionType getExpressionType();
 
