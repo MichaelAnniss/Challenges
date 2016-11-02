@@ -47,7 +47,6 @@ public class BBParser {
             for(ExpectedInput input : curTokenType.preExpectedInputs()) {
                 if(!(input instanceof ExpectedOptionalInput)) {
                     tokenIt.previous();
-                    System.out.println("Scrolling back one");
                 }
             }
 
@@ -55,8 +54,6 @@ public class BBParser {
             for(ExpectedInput input : curTokenType.preExpectedInputs()) {
                 if(!(input instanceof ExpectedOptionalInput)) {
                     preInputs.add(tokenIt.next());
-                    System.out.println("Adding preInput " + tokens.get(tokenIt.nextIndex() - 1));
-                    System.out.println("scrolling forward one");
                 }
             }
 
@@ -67,17 +64,6 @@ public class BBParser {
                 if (tokenIt.nextIndex() != tokens.size()) {
                     inputs.add(tokenIt.next());
                 }
-            }
-
-            if(curToken.getType() == TokenType.EQUALS) {
-                System.out.println(" === ");
-                System.out.println(curToken.getType());
-                System.out.println(preInputs);
-                System.out.println(curTokenType.preExpectedInputs());
-                System.out.println(inputs);
-                System.out.println(curTokenType.expectedInputs());
-                System.out.println(TokenUtil.matches(preInputs, curTokenType.preExpectedInputs()));
-                System.out.println(" === ");
             }
 
             if(TokenUtil.matches(inputs, curTokenType.expectedInputs()) && TokenUtil.matches(preInputs, curTokenType.preExpectedInputs())) {
@@ -102,7 +88,6 @@ public class BBParser {
                     }
 
                     else if(curTokenType == TokenType.EQUALS) {
-                        System.out.println("Adding equals expression");
                         curBlock.addExpression(new EqualsCommand(curToken, new BBArgList(preInputs, inputs)));
                     }
                     else {

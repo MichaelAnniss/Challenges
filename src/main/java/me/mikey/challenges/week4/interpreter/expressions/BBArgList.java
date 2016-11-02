@@ -26,7 +26,12 @@ public class BBArgList {
 
     @Override
     public String toString() {
-        String toStr = "BBArgList {";
+        String toStr = "BBArgList Pre {";
+
+        for(Token token : preArgList)
+            toStr += token + " , ";
+
+        toStr += "} Post {";
 
         for(Token token : argList)
             toStr += token + " , ";

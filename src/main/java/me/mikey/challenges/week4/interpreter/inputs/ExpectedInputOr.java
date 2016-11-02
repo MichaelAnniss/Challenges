@@ -3,25 +3,26 @@ package me.mikey.challenges.week4.interpreter.inputs;
 import me.mikey.challenges.week4.interpreter.Token;
 import me.mikey.challenges.week4.interpreter.TokenType;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Michael on 27/10/16.
  */
 public class ExpectedInputOr extends ExpectedInput {
-    private TokenType expected;
-    private TokenType expected2;
+    private List<TokenType> expected;
 
-    public ExpectedInputOr(TokenType expected, TokenType expected2) {
-        this.expected = expected;
-        this.expected2 = expected2;
+    public ExpectedInputOr(TokenType ... expected) {
+        this.expected = Arrays.asList(expected);
     }
 
     @Override
     public InputResponse matches(Token token) {
-        return (token.getType() == this.expected || token.getType() == this.expected2) ? InputResponse.MATCHES : InputResponse.NO_MATCH;
+        return (this.expected.contains(token.getType())) ? InputResponse.MATCHES : InputResponse.NO_MATCH;
     }
 
     @Override
     public String toString() {
-        return String.format("(ExpectedInputOr %s or %s", expected, expected2);
+        return String.format("(ExpectedInputOr %s", expected);
     }
 }
