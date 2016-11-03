@@ -67,10 +67,6 @@ public class BBParser {
             }
 
             if(TokenUtil.matches(inputs, curTokenType.expectedInputs()) && TokenUtil.matches(preInputs, curTokenType.preExpectedInputs())) {
-                curToken.setMatched(true);
-                inputs.forEach(i -> i.setMatched(true));
-                preInputs.forEach(i -> i.setMatched(true));
-
                 // Now to build the Expression
                 if(curTokenType.getExpressionType() == TokenType.ExpressionType.COMMAND) {
                     BBBlock curBlock = blockStack.peek();
@@ -124,12 +120,6 @@ public class BBParser {
         //expressions.forEach(System.out::println);
         if(blockStack.size() > 1) {
             throw new UnexpectedEOFException("Unexpected end of file! (Missing end;?)");
-        }
-
-        for(Token token : tokens) {
-            if(!token.isMatched()) {
-                throw new UnexpectedTokenException("Unmatched token found! " + token);
-            }
         }
 
         return blockStack.pop();

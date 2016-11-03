@@ -7,6 +7,8 @@ import me.mikey.challenges.week4.interpreter.util.TokenUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Michael on 27/10/16.
@@ -19,33 +21,32 @@ public class BBLexer {
 
         int lineNumber = 1;
 
-        lineLoop: for(String line : lines) {
-            StringTokenizer lineTokenizer = new StringTokenizer(line, "( |;)", true);
+        for(String line : lines) {
+            while (!line.equals("")) {
+                line = line.trim();
 
-            while(lineTokenizer.hasMoreTokens()) {
-                String token = lineTokenizer.nextToken().trim();
                 boolean matched = false;
 
-                //Ignore whitespace
-                if(token.isEmpty()) continue;
+                for (TokenType type : TokenType.values()) {
+                    if (type.getPattern() == null)
+                        continue;
 
-                //Handle comments first, just skip the rest of the line
-                if(TokenType.COMMENT.matches(token)) {
-                    continue lineLoop;
-                }
+                    Matcher matcher = type.getPattern().matcher(line);
 
-                for(TokenType type : TokenType.values()) {
-                    if(type.matches(token)) {
-                        tokens.add(new Token(type, token, lineNumber));
+                    if (matcher.find()) {
+                        String token = matcher.group().trim();
+
+                        if(type != TokenType.COMMENT)
+                            tokens.add(new Token(type, token, lineNumber));
+
+                        line = matcher.replaceFirst("").trim();
                         matched = true;
                         break;
                     }
                 }
 
-                if(!matched && TokenUtil.isValidVariable(token)) {
-                    tokens.add(new Token(TokenType.VARIABLE, token, lineNumber));
-                } else if(!matched) {
-                    throw new UnexpectedTokenException("Unexpected token " + token + " at line " + lineNumber + " - invalid variable name?");
+                if (!matched) {
+                    throw new UnexpectedTokenException("Unexpected token " + line + " at line " + lineNumber + " - invalid variable name?");
                 }
             }
 

@@ -3,21 +3,16 @@ package me.mikey.challenges.week4.interpreter;
 import me.mikey.challenges.week4.interpreter.inputs.ExpectedCondition;
 import me.mikey.challenges.week4.interpreter.inputs.ExpectedInput;
 import me.mikey.challenges.week4.interpreter.inputs.ExpectedInputOr;
-import me.mikey.challenges.week4.interpreter.util.NumberUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by Michael on 27/10/16.
  */
 public enum TokenType {
-    CLEAR {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("clear");
-        }
-
+    CLEAR("^(?i)clear") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
@@ -28,12 +23,7 @@ public enum TokenType {
             return ExpressionType.COMMAND;
         }
     },
-    INCR {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("incr");
-        }
-
+    INCR("^(?i)incr") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
@@ -44,12 +34,7 @@ public enum TokenType {
             return ExpressionType.COMMAND;
         }
     },
-    DECR {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("decr");
-        }
-
+    DECR("^(?i)decr") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
@@ -60,12 +45,7 @@ public enum TokenType {
             return ExpressionType.COMMAND;
         }
     },
-    WHILE {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("while");
-        }
-
+    WHILE("^(?i)while") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(
@@ -81,12 +61,7 @@ public enum TokenType {
             return ExpressionType.BLOCK;
         }
     },
-    SEMICOLON {
-        @Override
-        public boolean matches(String input) {
-            return input.equals(";");
-        }
-
+    SEMICOLON("^;") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
@@ -94,35 +69,20 @@ public enum TokenType {
     },
 
     //Operators
-    OP_NOT_EQUAL {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("!=");
-        }
-
+    OP_NOT_EQUAL("^!=") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    OP_EQUALS {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("==");
-        }
-
+    OP_EQUALS("^==") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
 
-    DO {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("do");
-        }
-
+    DO("^(?i)do") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(new ExpectedInput(SEMICOLON));
@@ -133,12 +93,7 @@ public enum TokenType {
             return ExpressionType.NONE;
         }
     },
-    END {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("end");
-        }
-
+    END("^(?i)end") {
         @Override
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(new ExpectedInput(SEMICOLON));
@@ -149,45 +104,25 @@ public enum TokenType {
             return ExpressionType.BLOCKEND;
         }
     },
-    NUMBER {
-        @Override
-        public boolean matches(String input) {
-            return NumberUtil.isNumber(input);
-        }
-
+    NUMBER("^[0-9]+") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    VARIABLE {
-        @Override
-        public boolean matches(String input) {
-            return false;
-        }
-
+    VARIABLE("^[a-zA-Z_][a-zA-Z0-9_]*") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    MAIN {
-        @Override
-        public boolean matches(String input) {
-            return false;
-        }
-
+    MAIN(null) {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCK;
         }
     },
-    ENDMAIN {
-        @Override
-        public boolean matches(String input) {
-            return false;
-        }
-
+    ENDMAIN(null) {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCKEND;
@@ -197,24 +132,14 @@ public enum TokenType {
     /*
      * Additional Task Tokens
      */
-    COMMENT {
-        @Override
-        public boolean matches(String input) {
-            return input.startsWith("//");
-        }
-
+    COMMENT("//(.*)?") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
 
-    EQUALS {
-        @Override
-        public boolean matches(String input) {
-            return input.equalsIgnoreCase("=");
-        }
-
+    EQUALS("=") {
         @Override
         public List<ExpectedInput> preExpectedInputs() {
             return Arrays.asList(new ExpectedInput(VARIABLE));
@@ -229,10 +154,9 @@ public enum TokenType {
         public ExpressionType getExpressionType() {
             return ExpressionType.COMMAND;
         }
-    }
-    ;
+    };
 
-    public abstract boolean matches(String input);
+    private Pattern pattern;
 
     public List<ExpectedInput> preExpectedInputs() {
         return Arrays.asList();
@@ -243,6 +167,15 @@ public enum TokenType {
     }
 
     public abstract ExpressionType getExpressionType();
+
+    TokenType(String regex) {
+        if(regex != null)
+            pattern = Pattern.compile(regex);
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
 
     public enum ExpressionType {
         NONE,
