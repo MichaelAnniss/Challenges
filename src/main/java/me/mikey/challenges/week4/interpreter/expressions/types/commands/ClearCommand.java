@@ -16,6 +16,6 @@ public class ClearCommand extends BBCommand {
     @Override
     public void execute(BBVirtualMachine vm) {
         Token variable = argList.getArgList().get(0);
-        vm.setVariable(variable.getData(), 0);
+        vm.setVariable(variable.getData(), 0.0);
     }
 }
