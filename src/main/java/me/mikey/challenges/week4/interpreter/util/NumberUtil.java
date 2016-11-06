@@ -6,7 +6,7 @@ package me.mikey.challenges.week4.interpreter.util;
 public class NumberUtil {
     public static boolean isNumber(String input) {
         try {
-            Integer.parseInt(input);
+            Double.parseDouble(input);
             return true;
         } catch (NumberFormatException e) {
             return false;

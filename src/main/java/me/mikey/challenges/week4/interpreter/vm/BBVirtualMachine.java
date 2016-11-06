@@ -1,7 +1,9 @@
 package me.mikey.challenges.week4.interpreter.vm;
 
 import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
+import me.mikey.challenges.week4.interpreter.expressions.BBArgList;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
+import me.mikey.challenges.week4.interpreter.expressions.types.BBFunction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +13,12 @@ import java.util.Map;
  */
 public class BBVirtualMachine {
     private Map<String, BBVariable> variables = new HashMap<>();
+    private Map<String, BBFunction> functions = new HashMap<>();
     private BBBlock block;
 
-    public BBVirtualMachine(BBBlock block) {
+    public BBVirtualMachine(BBBlock block, Map<String, BBFunction> functions) {
         this.block = block;
+        this.functions = functions;
     }
 
     public void execute() {
@@ -46,5 +50,13 @@ public class BBVirtualMachine {
         InterpreterEventManager.getInstance().variableUpdate(variable, oldValue, value, this);
 
         this.variables.put(name, variable);
+    }
+
+    public BBFunction getFunction(String name) {
+        return this.functions.get(name);
+    }
+
+    public void executeFunction(String name, BBArgList argList) {
+        this.functions.get(name).executeFunction(argList, this);
     }
 }

@@ -2,9 +2,11 @@ package me.mikey.challenges.week4.interpreter;
 
 import me.mikey.challenges.week4.interpreter.exceptions.BBException;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
+import me.mikey.challenges.week4.interpreter.expressions.types.BBFunction;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,9 +37,12 @@ public class BareBones {
         nanoTime = System.nanoTime();
 
         BBBlock block;
+        Map<String, BBFunction> functions;
 
         try {
-            block = BBParser.parse(tokens);
+            BBParser.BBParserResponse response = BBParser.parse(tokens);
+            block = response.getMainBlock();
+            functions = response.getFunctions();
         } catch (BBException e) {
             e.printStackTrace();
             return;
@@ -47,13 +52,14 @@ public class BareBones {
 
         if(!silent) {
             System.out.println(block);
+            functions.values().forEach(System.out::println);
             System.out.println("Parsing took " + TimeUnit.MILLISECONDS.convert(nanoTimeEnd - nanoTime, TimeUnit.NANOSECONDS) + "ms");
             System.out.println(" =================== \n\n");
         }
 
         nanoTime = System.nanoTime();
 
-        BBVirtualMachine vm = new BBVirtualMachine(block);
+        BBVirtualMachine vm = new BBVirtualMachine(block, functions);
         vm.execute();
 
         if(!silent) {

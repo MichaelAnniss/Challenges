@@ -1,8 +1,6 @@
 package me.mikey.challenges.week4.interpreter;
 
-import me.mikey.challenges.week4.interpreter.inputs.ExpectedCondition;
-import me.mikey.challenges.week4.interpreter.inputs.ExpectedInput;
-import me.mikey.challenges.week4.interpreter.inputs.ExpectedInputOr;
+import me.mikey.challenges.week4.interpreter.inputs.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +13,8 @@ public enum TokenType {
     CLEAR("^(?i)clear") {
         @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
+            return Arrays.asList(new ExpectedInput(VARIABLE),
+                    new ExpectedInput(SEMICOLON));
         }
 
         @Override
@@ -26,7 +25,8 @@ public enum TokenType {
     INCR("^(?i)incr") {
         @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
+            return Arrays.asList(new ExpectedInput(VARIABLE),
+                    new ExpectedInput(SEMICOLON));
         }
 
         @Override
@@ -37,7 +37,8 @@ public enum TokenType {
     DECR("^(?i)decr") {
         @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInput(VARIABLE), new ExpectedInput(SEMICOLON));
+            return Arrays.asList(new ExpectedInput(VARIABLE),
+                    new ExpectedInput(SEMICOLON));
         }
 
         @Override
@@ -52,8 +53,7 @@ public enum TokenType {
                     new ExpectedInputOr(NUMBER, VARIABLE),
                     new ExpectedCondition(),
                     new ExpectedInputOr(NUMBER, VARIABLE),
-                    new ExpectedInput(DO),
-                    new ExpectedInput(SEMICOLON));
+                    new ExpectedInput(DO));
         }
 
         @Override
@@ -82,23 +82,13 @@ public enum TokenType {
         }
     },
 
-    DO("^(?i)do") {
-        @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInput(SEMICOLON));
-        }
-
+    DO("^(?i)[{]") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    END("^(?i)end") {
-        @Override
-        public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInput(SEMICOLON));
-        }
-
+    END("^(?i)[}]") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCKEND;
@@ -108,6 +98,37 @@ public enum TokenType {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
+        }
+    },
+    FUNCTION("^function [a-zA-Z][a-zA-Z0-9]*") {
+        @Override
+        public List<ExpectedInput> expectedInputs() {
+            //TODO less static, allow dynamic number of args
+            return Arrays.asList(
+                    new ExpectedInput(LPAREN),
+                    new ExpectedInput(VARIABLE),
+                    new ExpectedInput(RPAREN)
+            );
+        }
+
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.BLOCK;
+        }
+    },
+    FUNCTION_CALL("^[a-zA-Z][a-zA-Z0-9]*[ ]?[(]") {
+        @Override
+        public List<ExpectedInput> expectedInputs() {
+            return Arrays.asList(
+                    new ExpectedInput(LPAREN),
+                    new ExpectedInput(VARIABLE),
+                    new ExpectedInput(RPAREN)
+            );
+        }
+
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.COMMAND;
         }
     },
     VARIABLE("^[a-zA-Z_][a-zA-Z0-9_]*") {
@@ -138,8 +159,7 @@ public enum TokenType {
             return ExpressionType.NONE;
         }
     },
-
-    EQUALS("=") {
+    EQUALS("^=") {
         @Override
         public List<ExpectedInput> preExpectedInputs() {
             return Arrays.asList(new ExpectedInput(VARIABLE));
@@ -147,14 +167,58 @@ public enum TokenType {
 
         @Override
         public List<ExpectedInput> expectedInputs() {
-            return Arrays.asList(new ExpectedInputOr(VARIABLE, NUMBER), new ExpectedInput(SEMICOLON));
+            return Arrays.asList(new ExpectedEvaluableInput(), new ExpectedInput(SEMICOLON));
         }
 
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.COMMAND;
         }
-    };
+    },
+    LPAREN("^[(]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    RPAREN("^[)]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    OP_PLUS("^[+]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    OP_MINUS("^[-]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    OP_MULTIPLY("^[*]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    OP_DIVIDE("^[/]") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+    COMMA("^,") {
+        @Override
+        public ExpressionType getExpressionType() {
+            return ExpressionType.NONE;
+        }
+    },
+
+    ;
 
     private Pattern pattern;
 

@@ -2,9 +2,14 @@ package me.mikey.challenges.week4.interpreter.inputs;
 
 import me.mikey.challenges.week4.interpreter.Token;
 import me.mikey.challenges.week4.interpreter.TokenType;
+import me.mikey.challenges.week4.interpreter.exceptions.BBException;
+import me.mikey.challenges.week4.interpreter.expressions.BBExpression;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by Michael on 27/10/16.
+ * Created by Michael on 03/11/16.
  */
 public class ExpectedInput {
     private TokenType expected;
@@ -16,18 +21,47 @@ public class ExpectedInput {
         this.expected = expected;
     }
 
-    public InputResponse matches(Token token) {
-        return token.getType() == this.expected ? InputResponse.MATCHES : InputResponse.NO_MATCH;
+    /**
+     * Takes a list of all input tokens and returns all of the ones it does not use
+     *
+     * @param input - list of all tokens
+     * @return - response from evaluation
+     */
+    public ExpectedInputResponse evaluate(List<Token> input) throws BBException {
+        if(input.get(0).getType() == expected) {
+            return new ExpectedInputResponse(Arrays.asList(input.remove(0)), true, null);
+        }
+
+        return new ExpectedInputResponse(Arrays.asList(), false, null);
     }
 
     @Override
     public String toString() {
-        return String.format("(Expected %s", this.expected);
+        return "ExpectedInput { " + this.expected + " }";
     }
 
-    public enum InputResponse {
-        MATCHES,
-        NO_MATCH,
-        IGNORE
+    public class ExpectedInputResponse {
+        private List<Token> usedTokens;
+        private boolean matches;
+        private BBExpression expression;
+
+        public ExpectedInputResponse(List<Token> usedTokens, boolean matches, BBExpression expression) {
+            this.usedTokens = usedTokens;
+            this.matches = matches;
+            this.expression = expression;
+        }
+
+        public boolean isMatched() {
+            return matches;
+        }
+
+        public BBExpression getExpression() {
+            return expression;
+        }
+
+        public List<Token> getUsedTokens() {
+            return usedTokens;
+        }
     }
+
 }

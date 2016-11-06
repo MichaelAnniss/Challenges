@@ -33,6 +33,24 @@ public class BBLexer {
 
                     Matcher matcher = type.getPattern().matcher(line);
 
+                    //Special cases (can't really avoid these...)
+                    if(type == TokenType.FUNCTION) {
+                        if(matcher.find()) {
+                            String functionName = matcher.group().trim().split(" ")[1];
+                            tokens.add(new Token(TokenType.FUNCTION, functionName, lineNumber));
+                            line = matcher.replaceFirst("").trim();
+                            continue;
+                        }
+                    }
+
+                    if(type == TokenType.FUNCTION_CALL) {
+                        if(matcher.find()) {
+                            tokens.add(new Token(TokenType.FUNCTION_CALL, matcher.group().trim().substring(0, matcher.group().length() - 1), lineNumber));
+                            line = "(" + matcher.replaceFirst("").trim();
+                            continue;
+                        }
+                    }
+
                     if (matcher.find()) {
                         String token = matcher.group().trim();
 

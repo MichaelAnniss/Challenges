@@ -8,6 +8,7 @@ import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -21,15 +22,15 @@ public class Week4ParserTest {
         try {
 
             List<Token> tokens = BBLexer.lex("clear X;");
-            BBBlock block = BBParser.parse(tokens);
+            BBBlock block = BBParser.parse(tokens).getMainBlock();
 
             //BBControl followed by BBCommand
             assertTrue(block.getExpressions().size() == 2);
 
             tokens = BBLexer.lex("clear X; incr X; incr X;");
-            block = BBParser.parse(tokens);
+            block = BBParser.parse(tokens).getMainBlock();
 
-            BBVirtualMachine vm = new BBVirtualMachine(block);
+            BBVirtualMachine vm = new BBVirtualMachine(block, new HashMap<>());
 
             assertTrue(block.getExpressions().size() == 4);
             vm.execute();

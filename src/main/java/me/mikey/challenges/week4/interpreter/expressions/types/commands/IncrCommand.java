@@ -16,6 +16,6 @@ public class IncrCommand extends BBCommand {
     @Override
     public void execute(BBVirtualMachine vm) {
         Token variable = argList.getArgList().get(0);
-        vm.setVariable(variable.getData(), vm.getVariableValue(variable.getData(), Integer.class) + 1);
+        vm.setVariable(variable.getData(), vm.getVariableValue(variable.getData(), Double.class) + 1);
     }
 }

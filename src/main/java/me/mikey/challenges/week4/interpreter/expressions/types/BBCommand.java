@@ -1,6 +1,7 @@
 package me.mikey.challenges.week4.interpreter.expressions.types;
 
 import me.mikey.challenges.week4.interpreter.Token;
+import me.mikey.challenges.week4.interpreter.exceptions.BBExecutionException;
 import me.mikey.challenges.week4.interpreter.expressions.BBArgList;
 import me.mikey.challenges.week4.interpreter.expressions.BBExpression;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
@@ -31,7 +32,11 @@ public class BBCommand extends BBExpression {
     }
 
     @Override
-    public void execute(BBVirtualMachine vm) {
+    public void execute(BBVirtualMachine vm) throws BBExecutionException {
         throw new UnsupportedOperationException("BBCommand cannot be executed directly!");
+    }
+
+    public void setArgList(BBArgList argList) {
+        this.argList = argList;
     }
 }

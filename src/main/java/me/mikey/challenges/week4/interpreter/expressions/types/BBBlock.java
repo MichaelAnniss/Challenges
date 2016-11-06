@@ -1,17 +1,22 @@
 package me.mikey.challenges.week4.interpreter.expressions.types;
 
 import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
+import me.mikey.challenges.week4.interpreter.exceptions.BBExecutionException;
+import me.mikey.challenges.week4.interpreter.exceptions.FunctionAlreadyExistsException;
 import me.mikey.challenges.week4.interpreter.expressions.BBExpression;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Michael on 27/10/16.
  */
 public class BBBlock extends BBExpression {
-    private List<BBExpression> expressions = new ArrayList<>();
+    protected List<BBExpression> expressions = new ArrayList<>();
+    private Map<String, BBFunction> functions = new HashMap<>();
     private BBControl control;
 
     public BBBlock(BBControl control) {
@@ -30,15 +35,29 @@ public class BBBlock extends BBExpression {
             if(expression instanceof BBControl) {
                 control = (BBControl) expression;
             } else if( !(expression instanceof BBEndBlock)) {
-                expression.execute(vm);
+                try {
+                    expression.execute(vm);
 
-                if(expression instanceof BBCommand) {
-                    InterpreterEventManager.getInstance().instructionExecuted((BBCommand) expression, vm);
+                    if (expression instanceof BBCommand) {
+                        InterpreterEventManager.getInstance().instructionExecuted((BBCommand) expression, vm);
+                    }
+                } catch (BBExecutionException e) {
+                    e.printStackTrace();
+                    return;
                 }
             } else if(control != null && control.shouldExecuteAgain(vm)) {
                 execute(vm);
             }
         }
+    }
+
+    public void registerFunction(BBFunction function) throws FunctionAlreadyExistsException {
+        if(this.functions.containsKey(function.getName())) {
+            throw new FunctionAlreadyExistsException("Function " + function.getName() + " has already been defined!");
+        }
+
+        System.out.println("Registering function " + function.getName());
+        this.functions.put(function.getName(), function);
     }
 
     public List<BBExpression> getExpressions() {

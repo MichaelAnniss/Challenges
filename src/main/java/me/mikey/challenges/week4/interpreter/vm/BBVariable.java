@@ -25,7 +25,7 @@ public class BBVariable<T> {
 
     public static BBVariable fromData(String data) {
         if(NumberUtil.isNumber(data)) {
-            return new BBVariable<>("@", Integer.parseInt(data));
+            return new BBVariable<>("@", Double.parseDouble(data));
         }
 
         return new BBVariable<Integer>("@", null);

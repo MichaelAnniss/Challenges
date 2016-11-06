@@ -2,6 +2,7 @@ package me.mikey.challenges.week4.interpreter.expressions;
 
 import me.mikey.challenges.week4.interpreter.Token;
 import me.mikey.challenges.week4.interpreter.TokenType;
+import me.mikey.challenges.week4.interpreter.exceptions.BBExecutionException;
 import me.mikey.challenges.week4.interpreter.vm.BBVariable;
 import me.mikey.challenges.week4.interpreter.vm.BBVirtualMachine;
 
@@ -20,5 +21,5 @@ public abstract class BBExpression {
         return null;
     }
 
-    public abstract void execute(BBVirtualMachine vm);
+    public abstract void execute(BBVirtualMachine vm) throws BBExecutionException;
 }
