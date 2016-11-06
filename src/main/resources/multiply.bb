@@ -1,30 +1,21 @@
 clear X;
-
-incr X;
-incr X;
-incr X;
-incr X;
+X = 4;
 
 clear Y;
-incr Y;
-incr Y;
-incr Y;
-incr Y;
-incr Y;
-incr Y;
+Y = 6;
 
 clear Z;
 
-while X != 0 do;
+while X != 0 {
     clear W;
-    while Y != 0 do;
+    while Y != 0 {
         incr Z;
         incr W;
         decr Y;
-    end;
-    while W != 0 do;
+    }
+    while W != 0 {
         incr Y;
         decr W;
-    end;
+    }
     decr X;
-end;
+}

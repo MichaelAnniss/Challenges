@@ -1,13 +1,19 @@
-clear X;
+function test(X) {
+    decr X;
+}
+
+function test2(X) {
+    incr X;
+}
+
 X = 5;
-
-clear Y;
 Y = 3;
+Z = (5 + 2) * X; // should be 7 * 5 = 35
 
-while X == Y do;
-    decr Y;
-end;
+while X != Y {
+   test2(Y);
+}
 
-while X != 0 do;
-    decr X; //test
-end;
+while X != 3 {
+   test(X);
+}

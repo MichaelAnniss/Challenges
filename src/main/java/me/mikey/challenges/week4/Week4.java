@@ -15,11 +15,11 @@ public class Week4 {
         initListeners();
 
         //warm up vm for more realistic benchmarks
-        runResource("multiply.bb", true);
-        runResource("multiply.bb", true);
+        runResource("test.bb", true);
+        runResource("test.bb", true);
 
         if(args.length == 0) {
-            runResource("multiply.bb", false);
+            runResource("test.bb", false);
         } else {
             run(args[0], false);
         }
