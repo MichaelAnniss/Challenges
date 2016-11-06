@@ -6,6 +6,8 @@ Y = 6;
 
 clear Z;
 
+answer = (X * Y);
+
 while X != 0 {
     clear W;
     while Y != 0 {

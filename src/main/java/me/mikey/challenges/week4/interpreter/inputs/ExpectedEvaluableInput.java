@@ -28,12 +28,11 @@ public class ExpectedEvaluableInput extends ExpectedInput {
         while(!done && it.hasNext()) {
             Token curToken = it.next();
 
-            if(curToken.getType() == TokenType.NUMBER) {
+            if(curToken.getType() == TokenType.NUMBER || curToken.getType() == TokenType.VARIABLE) {
                 outputQueue.add(curToken);
             }
 
-            //Could be a variable or function
-            else if(curToken.getType() == TokenType.VARIABLE || curToken.getType() == TokenType.FUNCTION_CALL) {
+            else if(curToken.getType() == TokenType.FUNCTION_CALL) {
                 opStack.add(curToken);
             }
 
@@ -51,7 +50,7 @@ public class ExpectedEvaluableInput extends ExpectedInput {
                     }
                 }
 
-                if(!added) { //todo
+                if(!added) {
                     throw new InvalidMathExpressionException("No left parenthesis found for " + curToken + " function");
                 }
             }
@@ -131,12 +130,10 @@ public class ExpectedEvaluableInput extends ExpectedInput {
     }
 
     public boolean isLeftAssociative(TokenType operator) {
-        //todo this will not be right when more are added
         return isOperator(operator);
     }
 
     public boolean isRightAssociative(TokenType operator) {
-        //todo implement this if an operator that is right associative is added
         return false;
     }
 
