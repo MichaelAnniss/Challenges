@@ -1,5 +1,6 @@
-function test(X) {
+function test(X, Y) {
     decr X;
+    incr Y;
 }
 
 function test2(X) {
@@ -15,5 +16,5 @@ while X != Y {
 }
 
 while X != 3 {
-   test(X);
+   test(X, Z);
 }

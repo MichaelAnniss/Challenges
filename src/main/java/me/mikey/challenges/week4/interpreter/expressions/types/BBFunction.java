@@ -35,7 +35,6 @@ public class BBFunction extends BBBlock {
         }
 
         for(Token token : list.getArgs()) {
-            System.out.println("Setting " + paramList.getArgs().get(i).getData() + " to " + root.getVariable(token.getData()).getValue());
             vm.setVariable(paramList.getArgs().get(i).getData(), root.getVariable(token.getData()).getValue());
             i++;
         }
@@ -44,7 +43,6 @@ public class BBFunction extends BBBlock {
 
         i = 0;
         for(Token token : paramList.getArgs()) {
-            System.out.println("Setting back " + list.getArgs().get(i).getData() + " to " + vm.getVariable(token.getData()).getValue());
             root.setVariable(list.getArgs().get(i).getData(), vm.getVariable(token.getData()).getValue());
             i++;
         }
