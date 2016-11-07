@@ -1,9 +1,11 @@
 package me.mikey.challenges.week4.interpreter.vm;
 
 import me.mikey.challenges.week4.interpreter.InterpreterEventManager;
+import me.mikey.challenges.week4.interpreter.exceptions.BBException;
 import me.mikey.challenges.week4.interpreter.expressions.BBArgList;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBBlock;
 import me.mikey.challenges.week4.interpreter.expressions.types.BBFunction;
+import me.mikey.challenges.week4.interpreter.expressions.types.BBParamList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class BBVirtualMachine {
         return this.functions.get(name);
     }
 
-    public void executeFunction(String name, BBArgList argList) {
-        this.functions.get(name).executeFunction(argList, this);
+    public void executeFunction(String name, BBParamList paramList) throws BBException {
+        this.functions.get(name).executeFunction(paramList, this);
     }
 }

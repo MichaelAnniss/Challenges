@@ -55,6 +55,8 @@ public class BBParser {
 
             BBExpression expression = null;
 
+            BBParamList paramList = null;
+
             for(ExpectedInput input : curTokenType.expectedInputs()) {
                 ExpectedInput.ExpectedInputResponse response = input.evaluate(subList(this.tokens, tokenIt.nextIndex(), this.tokens.size()));
 
@@ -68,14 +70,17 @@ public class BBParser {
                         if(expression instanceof EqualsCommand) {
                             ((EqualsCommand) expression).setArgList(new BBArgList(Arrays.asList(tokens.get(tokenIt.previousIndex() - 1)), Arrays.asList()));
                         }
+
+                        if(expression instanceof BBParamList)
+                            paramList = (BBParamList) expression;
                     }
 
                     advance(tokenIt, response.getUsedTokens().size());
                 }
             }
 
-            if(expression == null) {
-                calcExpression(curToken, preInputs, inputs);
+            if(expression == null || expression instanceof BBParamList) {
+                calcExpression(curToken, preInputs, inputs, paramList);
             } else {
                 curBlock.addExpression(expression);
             }
@@ -112,7 +117,7 @@ public class BBParser {
         return new BBParser(tokens).parse();
     }
 
-    public void calcExpression(Token curToken, List<Token> preInputs, List<Token> inputs) throws BBException {
+    public void calcExpression(Token curToken, List<Token> preInputs, List<Token> inputs, BBParamList paramList) throws BBException {
         // Now to build the Expression
         TokenType curTokenType = curToken.getType();
 
@@ -138,7 +143,7 @@ public class BBParser {
             }
 
             else if (curTokenType == TokenType.FUNCTION_CALL) {
-                curBlock.addExpression(new FunctionCallCommand(curToken, new BBArgList(preInputs, inputs)));
+                curBlock.addExpression(new FunctionCallCommand(curToken, new BBArgList(preInputs, inputs), paramList));
             }
 
             else {
@@ -154,7 +159,7 @@ public class BBParser {
                             "functions can only exist in the root block!");
                 }
 
-                curBlock = new BBFunction(curToken.getData(), new BBArgList(preInputs, inputs));
+                curBlock = new BBFunction(curToken.getData(), paramList);
                 return;
             }
 

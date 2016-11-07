@@ -103,10 +103,9 @@ public enum TokenType {
     FUNCTION("^function [a-zA-Z][a-zA-Z0-9]*") {
         @Override
         public List<ExpectedInput> expectedInputs() {
-            //TODO less static, allow dynamic number of args
             return Arrays.asList(
                     new ExpectedInput(LPAREN),
-                    new ExpectedInput(VARIABLE),
+                    new ExpectedArgListInput(),
                     new ExpectedInput(RPAREN)
             );
         }
@@ -121,7 +120,7 @@ public enum TokenType {
         public List<ExpectedInput> expectedInputs() {
             return Arrays.asList(
                     new ExpectedInput(LPAREN),
-                    new ExpectedInput(VARIABLE),
+                    new ExpectedArgListInput(),
                     new ExpectedInput(RPAREN)
             );
         }

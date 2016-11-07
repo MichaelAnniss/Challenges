@@ -2,7 +2,6 @@ package me.mikey.challenges.week4.interpreter;
 
 import me.mikey.challenges.week4.interpreter.exceptions.BBException;
 import me.mikey.challenges.week4.interpreter.exceptions.UnexpectedTokenException;
-import me.mikey.challenges.week4.interpreter.util.TokenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
