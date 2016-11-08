@@ -34,7 +34,7 @@ public class Week4ParserTest {
 
             assertTrue(block.getExpressions().size() == 4);
             vm.execute();
-            assertTrue(vm.getVariableValue("X", Integer.class) == 2);
+            assertTrue(vm.getVariableValue("X", Double.class) == 2);
         } catch (BBException e) {
             fail(e.getMessage());
         }

@@ -16,5 +16,5 @@ while X != Y {
 }
 
 while X != 3 {
-   test(X, Z);
+   test(X, Z); // then Z gets increased twice so Z = 37
 }
