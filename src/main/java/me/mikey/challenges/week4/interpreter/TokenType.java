@@ -82,13 +82,13 @@ public enum TokenType {
         }
     },
 
-    DO("^(?i)[{]") {
+    DO("^[{]") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.NONE;
         }
     },
-    END("^(?i)[}]") {
+    END("^[}]") {
         @Override
         public ExpressionType getExpressionType() {
             return ExpressionType.BLOCKEND;
