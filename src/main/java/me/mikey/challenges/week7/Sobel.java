@@ -2,8 +2,8 @@ package me.mikey.challenges.week7;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -73,7 +73,7 @@ public class Sobel {
                 //3.2 million squared, saves having to sqrt the magnitude
                 //sobel[(y * width) + x] = pixelArray[(y * width) + x];
 
-                if(mag < 5e12) {
+                if(mag < 2.5e12) {
                     sobel[(y * width) + x] = Color.WHITE.getRGB();
                 } else {
                     sobel[(y * width) + x] = Color.BLACK.getRGB();
@@ -86,7 +86,7 @@ public class Sobel {
         return (long) pixels[(y * width) + x];
     }
 
-    public static BufferedImage applyMultithreaded(BufferedImage img) {
+    public static SobelResult applyMultithreaded(BufferedImage img) {
         BufferedImage sobel = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
 
         List<Callable<Object>> list = new ArrayList<>();
@@ -98,6 +98,8 @@ public class Sobel {
 
         int[] pixelArray = new int[width * height];
         int[] pixelArrayCopy = new int[width * height];
+
+        Arrays.fill(pixelArrayCopy, Color.WHITE.getRGB());
 
         img.getRGB(0, 0, width, height, pixelArray, 0, width);
 
@@ -120,10 +122,28 @@ public class Sobel {
         }
 
         //Week7.save(sobel, output);
-        return sobel;
+        return new SobelResult(sobel, pixelArrayCopy);
     }
 
     public static void close() {
         executorService.shutdown();
+    }
+
+    public static class SobelResult {
+        private BufferedImage img;
+        private int[] data;
+
+        public SobelResult(BufferedImage img, int[] data) {
+            this.img = img;
+            this.data = data;
+        }
+
+        public BufferedImage getImg() {
+            return img;
+        }
+
+        public int[] getData() {
+            return data;
+        }
     }
 }
